@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEP9 Vocabulary MCQ Quiz</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 850px; margin: 0 auto; padding: 25px; background:#f5f7fb; color:#222; }
+  h1 { text-align:center; }
+  .question { background:white; padding:18px; margin:15px 0; border-radius:12px; box-shadow:0 2px 7px #ddd; }
+  .option { display:block; padding:10px; margin:7px 0; border:1px solid #ddd; border-radius:8px; cursor:pointer; }
+  .option:hover { background:#f0f3f8; }
+  button { display:block; margin:25px auto; padding:12px 25px; font-size:16px; border:0; border-radius:8px; cursor:pointer; background:#222; color:white; }
+  #result { text-align:center; font-size:22px; font-weight:bold; margin:20px; }
+  .correct { background:#dff5df; }
+  .wrong { background:#ffe0e0; }
+  .feedback { margin-top:8px; font-weight:bold; }
+</style>
+</head>
+<body>
+<h1>GEP9 Vocabulary Quiz</h1>
+<p><b>Choose the best answer.</b> There are 19 questions.</p>
+<div id="quiz"></div>
+<button onclick="checkAnswers()">Check Answers</button>
+<div id="result"></div>
+
+<script>
+const questions = [
+["What does <b>thoroughly</b> mean?", ["very carefully","very quickly","very loudly","very easily"], "very carefully"],
+["Which food is a good source of <b>protein</b>?", ["Eggs","Candy","Soft drinks","Sugar"], "Eggs"],
+["What are <b>carbs</b>?", ["Food that gives you energy","A type of medicine","A kind of exercise","A type of disease"], "Food that gives you energy"],
+["What does <b>consume</b> mean?", ["to eat or drink","to sleep","to cook","to exercise"], "to eat or drink"],
+["What is a <b>negative effect</b>?", ["a bad result","a good idea","a healthy meal","a useful habit"], "a bad result"],
+["What does <b>impair</b> mean?", ["to make something work less well","to make something bigger","to make something faster","to clean something"], "to make something work less well"],
+["What does <b>come into contact with</b> mean?", ["to touch something","to avoid something","to buy something","to break something"], "to touch something"],
+["What is an <b>addition</b>?", ["something you add","something you remove","something you lose","something you forget"], "something you add"],
+["What is <b>digestion</b>?", ["the process of breaking down food","the process of cooking food","the process of buying food","the process of choosing food"], "the process of breaking down food"],
+["What does <b>overweight</b> mean?", ["too heavy for your height","very tall","very hungry","very strong"], "too heavy for your height"],
+["What does <b>contain</b> mean?", ["to have something inside","to throw something away","to make something smaller","to find something"], "to have something inside"],
+["What is <b>fibre</b>?", ["a part of plant food that helps your body","a type of sugar","a kind of drink","a type of medicine"], "a part of plant food that helps your body"],
+["What does a <b>nutritionist</b> do?", ["gives advice about healthy food","teaches mathematics","repairs cars","takes photographs"], "gives advice about healthy food"],
+["What is your <b>appetite</b>?", ["the feeling that you want to eat","your ability to sleep","your body temperature","your ability to run"], "the feeling that you want to eat"],
+["What does <b>chew</b> mean?", ["to bite food again and again","to swallow food quickly","to cook food","to smell food"], "to bite food again and again"],
+["What is <b>diabetes</b>?", ["a disease that affects sugar in the blood","a type of food","a type of exercise","a problem with your teeth"], "a disease that affects sugar in the blood"],
+["What does a <b>psychologist</b> study?", ["the mind and feelings","food and cooking","plants and animals","weather"], "the mind and feelings"],
+["What does <b>digest</b> mean?", ["to break food down in your body","to eat very quickly","to cook food","to buy food"], "to break food down in your body"],
+["What does <b>speed</b> mean?", ["how fast something happens","how big something is","how heavy something is","how expensive something is"], "how fast something happens"]
+];
+
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+const quiz = document.getElementById("quiz");
+
+questions.forEach((q, i) => {
+  const div = document.createElement("div");
+  div.className = "question";
+  div.innerHTML = `<p><b>${i+1}. ${q[0]}</b></p>`;
+  shuffle(q[1]).forEach(option => {
+    div.innerHTML += `<label class="option"><input type="radio" name="q${i}" value="${option}"> ${option}</label>`;
+  });
+  quiz.appendChild(div);
+});
+
+function checkAnswers() {
+  let score = 0;
+  questions.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    const box = document.querySelectorAll(".question")[i];
+    box.classList.remove("correct","wrong");
+    let old = box.querySelector(".feedback");
+    if (old) old.remove();
+
+    const feedback = document.createElement("div");
+    feedback.className = "feedback";
+
+    if (selected && selected.value === q[2]) {
+      score++;
+      box.classList.add("correct");
+      feedback.textContent = "✓ Correct!";
+    } else {
+      box.classList.add("wrong");
+      feedback.textContent = "✗ Correct answer: " + q[2];
+    }
+    box.appendChild(feedback);
+  });
+
+  document.getElementById("result").textContent =
+    `Your score: ${score} / ${questions.length}`;
+  window.scrollTo({top: document.body.scrollHeight, behavior:"smooth"});
+}
+</script>
+</body>
+</html>
